@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../main/app.module';
 import { DogNoId } from 'src/main/dogs/schemas/dog.schema';
@@ -13,6 +13,7 @@ describe('Dogs CRUD', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useLogger(new Logger());
     await app.init();
   });
 
