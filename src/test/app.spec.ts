@@ -27,8 +27,24 @@ describe('Dogs CRUD', () => {
     const dogId = response.body.id;
     const fetchedDog = await getDog(app, dogId);
 
+    expect(fetchedDog.status).toBe(200);
     expect(fetchedDog.body).toStrictEqual({...dog, id: dogId});
   });
+
+  it('should delete a new dog', async () => {
+    const dog: DogNoId = {
+      name: "Spike",
+      owner: "Jhon"
+    }
+
+    const response = await postDog(app, dog);
+    const dogId = response.body.id;
+    await deleteDog(app, dogId);
+    const fetchedDog = await getDog(app, dogId);
+
+    expect(fetchedDog.status).toBe(404);
+  });
+
 });
 
 async function postDog(app: INestApplication, dog: DogNoId): Promise<request.Response> {
@@ -40,6 +56,11 @@ async function postDog(app: INestApplication, dog: DogNoId): Promise<request.Res
 
 async function getDog(app: INestApplication, dogId: any): Promise<request.Response> {
   return request(app.getHttpServer())
-  .get('/dogs/' + dogId)
+  .get('/dogs/' + dogId);
+}
+
+async function deleteDog(app: INestApplication, dogId: any): Promise<request.Response> {
+  return request(app.getHttpServer())
+  .delete('/dogs/' + dogId)
   .expect(200);
 }

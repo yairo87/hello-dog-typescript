@@ -15,4 +15,9 @@ export class DogsService {
     const id =  await this.dogsDao.save(dog);
     return this.dogsDao.getById(id);
   }
+
+  deleteById(id: any): void {
+    this.dogsDao.deleteById(id)
+  }
+
 }
