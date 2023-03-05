@@ -19,7 +19,7 @@ export class DogsDao {
     return dog;
   }
 
-  async save(dog: DogNoId): Promise<String> {
+  async save(dog: DogNoId): Promise<string> {
     const dogId = uuidv4();
     this.dogsMap.set(dogId, { ...dog, id: dogId});
     return dogId;
